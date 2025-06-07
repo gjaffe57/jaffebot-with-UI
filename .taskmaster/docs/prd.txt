@@ -1,0 +1,113 @@
+# JaffeBot 3.0 – PRD  
+Target Release: Q3 2025 (Alpha)  
+
+---
+
+## 1 Executive Summary  
+JaffeBot 3.0 is an AI-powered SEO-audit automation platform that streamlines technical, content, and link-profile analysis across large site portfolios. A modular, multi-agent architecture (Discovery, Preliminary Audit, Content Refresher, Backlink & Outreach) delivers end-to-end insight and task generation while integrating directly with Google Search Console (GSC) and Task Master for execution tracking.  [oai_citation:1‡JaffeBot 3.0 SOP (1).pdf](file-service://file-SDgkk6C8EtNpv6ggVcQ9od)  
+
+## 2 Problem Statement & Background  
+Manual SEO audits are slow, fragmented, and error-prone—especially when juggling crawl data, GSC metrics, competitor research, and content refresh cycles. Agencies and in-house teams need a scalable workflow that:  
+
+* **Discovers** site structure & benchmark queries automatically  
+* **Audits** technical and on-page factors with minimal setup  
+* **Acts** on findings (content refresh, link outreach, internal linking) without copy-paste busywork  
+* **Iterates** continuously as rankings and SERP formats evolve (e.g., AI overviews, zero-click results)
+
+## 3 Goals & Success Metrics  
+
+| Goal | Metric | Target |
+|------|--------|--------|
+| Cut manual audit time | Avg. hours per 100 URLs | ↓ ≥ 50 % |
+| Surface critical issues automatically | Critical issues detected / total critical issues | ≥ 80 % |
+| Generate actionable report | Time to first client-ready PDF/HTML | ≤ 15 min |
+| Demonstrate impact | Organic sessions uplift on pilot sites | +10 % within 8 weeks |
+
+## 4 Scope (In vs Out)  
+**In**  
+* Technical crawl (robots.txt, sitemap.xml, LLMs.txt, schema, Core Web Vitals)  
+* Content & keyword gap analysis  
+* GSC ingestion & performance charts  
+* Internal-link suggestions & schema generation (GPT-powered)  
+* Keyword rank tracker & GEO / zero-click optimisation modules  
+* Redirect & uptime monitoring  
+* Multilingual content generation (50+ languages)  
+
+**Out / Future**  
+* Paid third-party keyword APIs (v1)  
+* Full A/B testing harness (slated for Monitoring & Iteration Agent)  
+
+## 5 Personas & Key User Stories  
+| Persona | Story |
+|---------|-------|
+| **SEO Strategist** | “I want a one-click audit that flags crawl traps and keyword gaps so I can prioritise fixes.” |
+| **Agency Account Mgr** | “I need clear, shareable reports that prove ROI to my clients.” |
+| **Content Editor** | “Show me which pages need a refresh and supply draft copy I can tweak quickly.” |
+| **Head of Growth** | “Track rankings and zero-click visibility so I can justify content spend.” |
+
+## 6 Functional Requirements  
+
+### Epic A – Discovery & Benchmark Agent  
+* Crawl robots.txt, sitemap.xml, LLMs.txt; compile URL inventory  
+* Benchmark top competitor domains & SERP share  
+
+### Epic B – Preliminary Audit Agent  
+* Run technical checks (indexability, Core Web Vitals, schema, mobile)  
+* Pull GSC data; correlate impressions, clicks, CTR anomalies  
+* Output Markdown/HTML report + JSON issue list  
+
+### Epic C – Content Refresher Agent  
+* Identify quick-win pages (high impressions / low CTR)  
+* Draft updated titles, meta, H1-H3, internal-link targets  
+
+### Epic D – Backlink Audit & Outreach Planning  
+* Compare backlink gaps vs competitors  
+* Generate tiered link-prospect lists and outreach task packets  
+
+### Epic E – Redirect & Uptime Agent  
+* Monitor 4xx/5xx, redirect chains, infinite loops; push alerts to Task Master  
+
+## 7 Non-Functional Requirements  
+* **Performance:** Complete a 10 k-URL audit in < 30 min on a 4-CPU worker  
+* **Security:** OAuth2 token vault; PII redaction in logs  
+* **Observability:** Structured JSON logs; Grafana dashboards  
+* **Scalability:** Horizontal worker pool with queue back-pressure  
+* **Accessibility:** WCAG 2.1 AA for generated reports  
+
+## 8 Technical Architecture & Data Flow  
+1. **Next.js 14** dashboard → calls Python API via FastAPI gateway  
+2. **Agent Orchestrator** (Celery) assigns tasks to micro-agents  
+3. Crawlers (BeautifulSoup + requests) → **Audit DB** (Postgres)  
+4. GSC/G-Drive data ingested via Google API clients  
+5. AI services (OpenAI) generate schema, internal links, multilingual copy  
+6. Task outputs pushed to Task Master (REST) and rendered in UI  
+
+> _See SOP for full module list and logical dependency chain._  [oai_citation:2‡JaffeBot 3.0 SOP (1).pdf](file-service://file-SDgkk6C8EtNpv6ggVcQ9od)  
+
+## 9 Integrations & Dependencies  
+* Google Search Console & PageSpeed API  
+* Task Master REST for issue ticketing  
+* OpenAI GPT-4o for content generation / summarisation  
+* Optional: Ahrefs/SEMrush (backlink API) – disabled by default  
+
+## 10 Milestones & Timeline  
+
+| Phase | Scope | ETA |
+|-------|-------|-----|
+| **1 – Core** | Discovery, Preliminary Audit, basic GSC charts | Aug 2025 |
+| **2 – Expansion** | Content Refresher, Backlink Agent, redirect monitoring, AI modules (schema, internal-links, multilingual, RAG, GEO/zero-click) | Oct 2025 |
+| **3 – Polish** | Task Master deep link, dashboard UI, Monitoring & Iteration Agent | Dec 2025 |
+
+## 11 Risks & Open Questions  
+* **API limits/changes** – graceful degradation + manual CSV import fallback  
+* **Multi-agent complexity** – incremental rollout, feature flags  
+* **Data-privacy compliance** – SOC 2 logging, token vault  
+* **AI output quality** – human-in-the-loop approvals for content changes  
+
+_Open Questions_  
+1. Will the pilot clients allow full write-access for automated internal-link injection?  
+2. Which backlink data provider (Ahrefs vs SEMrush) aligns with budget?  
+
+## 12 Appendix  
+* Glossary: RAG, GEO, Zero-Click, LLMs.txt  
+* References: Internal benchmarking study, SOP, competitive tool matrix  
