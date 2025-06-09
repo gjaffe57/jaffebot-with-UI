@@ -1,6 +1,6 @@
 # JaffeBot 3.0
 
-JaffeBot 3.0 is an AI-powered SEO-audit automation platform that streamlines technical, content, and link-profile analysis across large site portfolios. It features a modular, multi-agent architecture (Discovery, Preliminary Audit, Content Refresher, Backlink & Outreach) and integrates with Google Search Console (GSC) and Task Master for execution tracking.
+JaffeBot 3.0 is an AI-powered SEO-audit automation interface that streamlines technical, content, and link-profile analysis across large site portfolios. It features a modular, multi-agent architecture (Discovery, Preliminary Audit, Content Refresher, Backlink & Outreach) and integrates with Google Search Console (GSC) and Task Master for execution tracking.
 
 ## Features
 - Automated technical, content, and backlink audits
