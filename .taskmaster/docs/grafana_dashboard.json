@@ -1,0 +1,78 @@
+{
+  "dashboard": {
+    "id": null,
+    "title": "Platform Observability",
+    "tags": ["security", "compliance", "logs"],
+    "timezone": "browser",
+    "schemaVersion": 36,
+    "version": 1,
+    "refresh": "30s",
+    "panels": [
+      {
+        "type": "stat",
+        "title": "Log Volume (Last 24h)",
+        "datasource": "Loki",
+        "targets": [
+          {
+            "expr": "count_over_time({app=~\".*\"} | json | level=~\"info|warning|error|critical\" [24h])",
+            "refId": "A"
+          }
+        ],
+        "fieldConfig": {"defaults": {"unit": "short"}},
+        "gridPos": {"h": 4, "w": 8, "x": 0, "y": 0}
+      },
+      {
+        "type": "stat",
+        "title": "Error Rate (Last 1h)",
+        "datasource": "Loki",
+        "targets": [
+          {
+            "expr": "count_over_time({app=~\".*\"} | json | level=\"error\" [1h])",
+            "refId": "A"
+          }
+        ],
+        "fieldConfig": {"defaults": {"unit": "short"}},
+        "gridPos": {"h": 4, "w": 8, "x": 8, "y": 0}
+      },
+      {
+        "type": "stat",
+        "title": "PII Redaction Events (Last 24h)",
+        "datasource": "Loki",
+        "targets": [
+          {
+            "expr": "count_over_time({app=~\".*\"} | json | message=~\"REDACTED.*\" [24h])",
+            "refId": "A"
+          }
+        ],
+        "fieldConfig": {"defaults": {"unit": "short"}},
+        "gridPos": {"h": 4, "w": 8, "x": 0, "y": 4}
+      },
+      {
+        "type": "stat",
+        "title": "Authentication Events (Last 24h)",
+        "datasource": "Loki",
+        "targets": [
+          {
+            "expr": "count_over_time({app=~\".*\"} | json | message=~\"login\" [24h])",
+            "refId": "A"
+          }
+        ],
+        "fieldConfig": {"defaults": {"unit": "short"}},
+        "gridPos": {"h": 4, "w": 8, "x": 8, "y": 4}
+      },
+      {
+        "type": "table",
+        "title": "Top Error Messages (Last 24h)",
+        "datasource": "Loki",
+        "targets": [
+          {
+            "expr": "{app=~\".*\"} | json | level=\"error\" | line_format \"{{.timestamp}} {{.logger}} {{.message}}\" | unwrap message | topk(10, message)",
+            "refId": "A"
+          }
+        ],
+        "gridPos": {"h": 8, "w": 16, "x": 0, "y": 8}
+      }
+    ]
+  },
+  "overwrite": false
+} 
